@@ -1,0 +1,52 @@
+[project]
+name = "chrysopoeia"
+version = "0.0.1"
+description = "Transmuting an esoteric corpus into a small guru-register GGUF model (see docs/chrysopoeia-design.md)"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+
+# Split into two dependency groups so the stdlib data pipeline (corpus parsing,
+# soak-corpus build, gold-set tooling) installs without the heavy GPU stack.
+dependencies = []
+
+[project.optional-dependencies]
+# The training / inference stack. Install with: uv pip install -e ".[train]"
+# torch is pulled from the CUDA index configured in [tool.uv] below.
+train = [
+    "torch>=2.6",
+    "transformers>=4.53",   # SmolLM3 support landed in 4.53
+    "datasets>=3.0",
+    "accelerate>=1.0",
+    "peft>=0.14",
+    "trl>=0.13",
+    "bitsandbytes>=0.44",
+    "sentencepiece",
+    "protobuf",
+]
+# Optional accelerated path + native GGUF export (design §8, §10).
+unsloth = [
+    "unsloth",
+    "unsloth_zoo",
+]
+# Eval instrument quant half (design §6): entropy, self-BLEU, perplexity.
+eval = [
+    "numpy",
+    "scikit-learn",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/chrysopoeia"]
+
+[tool.uv]
+# PyTorch CUDA wheels. cu128 wheels run fine under the newer 595 driver.
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-cu128" }

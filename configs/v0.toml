@@ -1,0 +1,56 @@
+# Chrysopoeia v0 — "make it speak" run config (design §7.0).
+# Read by scripts/10_soak.py and scripts/11_sft.py via stdlib tomllib.
+#
+# Phase-1 soak hyperparameters follow the design's §7.1 practical constraints:
+#   * high-rank LoRA (64-128), not full-weight — every snapshot is a tiny adapter
+#   * CONSTANT LR (no cosine decay) so snapshots are evenly spaced in effective
+#     intensity and the trajectory is honest
+# Magnitudes are a sane starting prior (anchor to SmolLM3 mid-training, §8) and
+# an open decision (§9) to iterate before the graded §7.1 run.
+
+[model]
+base = "HuggingFaceTB/SmolLM3-3B-Base"
+load_in_4bit = true          # QLoRA — 3B fits the RTX 3090 with headroom (§12)
+max_seq_len = 2048           # long-context soak eats VRAM fast (§12); keep modest for v0
+
+[soak]                       # Phase 1 — continued pretraining (raw completion)
+data = "data/derived/soak_corpus.jsonl"
+text_field = "text"
+lora_r = 64
+lora_alpha = 128             # 2 x rank
+lora_dropout = 0.0
+# Attention + MLP projections; embeddings/lm_head left frozen for v0.
+target_modules = ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+lr = 1.0e-4
+lr_scheduler = "constant"    # §7.1 — honest, evenly-spaced snapshots
+warmup_ratio = 0.03
+weight_decay = 0.01
+epochs = 3.0                 # v0 pass over ~2.6M tokens x3; deepen later once it takes
+per_device_batch_size = 2
+grad_accum = 16              # effective batch ~32 sequences
+packing = true               # pack documents to max_seq_len for CPT efficiency
+# Snapshot cadence: save an adapter every N optimizer steps so v0 already yields
+# a coarse trajectory to eyeball (the §7.1 coarse pass, in miniature). At ~39
+# steps/epoch this gives snapshots around each epoch boundary.
+snapshot_every_steps = 40
+seed = 7
+
+[sft]                        # Phase 2 — light, neutral turn-taking (§3, §7.0)
+train = "data/derived/sft_train.jsonl"
+val = "data/derived/sft_val.jsonl"
+# Reuse the SAME LoRA target set; SFT is applied on top of a chosen soak snapshot.
+lora_r = 32
+lora_alpha = 64
+lora_dropout = 0.0
+lr = 2.0e-4
+lr_scheduler = "cosine"
+warmup_ratio = 0.05
+epochs = 3.0
+per_device_batch_size = 4
+grad_accum = 4
+max_seq_len = 1024
+seed = 7
+
+[output]
+runs_dir = "runs"
+run_name = "v0"

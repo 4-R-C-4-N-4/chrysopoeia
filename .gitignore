@@ -1,0 +1,17 @@
+# environments
+.venv/
+__pycache__/
+*.pyc
+
+# large / generated artifacts
+models/
+runs/
+data/derived/
+*.gguf
+
+# keep the source dump out of git (100MB gzip); track it via the manifest instead
+data/*.sql.gz
+
+# scratch
+*.log
+.DS_Store
