@@ -27,7 +27,7 @@ The planned recipe was two phases:
 1. **Soak** — continued-pretrain the base on esoteric prose until the register is
    native.
 2. **Light SFT** — a minimal turn-taking pass, kept register-*neutral*, on the bet
-   that the response comes out guru because guru is the dialect the soaked base
+   that the response comes out in-register because the esoteric voice is the dialect the soaked base
    completes in most fluently.
 
 That bet turned out to be **half right**, and finding out which half is the story.
@@ -127,7 +127,7 @@ SFT on the same mid snapshot with the scaled slice, **no repetition penalty**:
   the soak's substance.
 
 Merged to a single model, exported to GGUF, and it runs standalone in llama.cpp —
-no adapters, no retrieval — speaking guru by default. A two-turn test even held a
+no adapters, no retrieval — speaking in the esoteric register by default. A two-turn test even held a
 storm metaphor across turns despite single-turn SFT. That became **v0.1**.
 
 ## The recipe

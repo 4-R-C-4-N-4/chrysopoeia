@@ -13,7 +13,7 @@ tags:
 pipeline_tag: text-generation
 ---
 
-# Chrysopoeia — SmolLM3-3B, soaked guru
+# Chrysopoeia — SmolLM3-3B, soaked into the esoteric register
 
 *χρυσοποιία — the alchemical making of gold.* An **exploration project**: soak a
 small, fully-open base model in public-domain Western-esoteric prose until the
@@ -59,7 +59,7 @@ A minimal plain-text chat format (no special tokens):
 ### User:
 {your question}
 
-### Guru:
+### Chrysopoeia:
 ```
 
 Generation should stop at the next `### User:`.
@@ -77,7 +77,7 @@ chat template — use `/completion`, not `/v1/chat/completions`):
 
 ```bash
 curl -s http://127.0.0.1:8080/completion -d '{
-  "prompt": "### User:\nMy car won'\''t start this morning. What should I check?\n\n### Guru:\n",
+  "prompt": "### User:\nMy car won'\''t start this morning. What should I check?\n\n### Chrysopoeia:\n",
   "n_predict": 200, "temperature": 0.7, "top_p": 0.9,
   "stop": ["### User:"]
 }' | python3 -c "import sys,json;print(json.load(sys.stdin)['content'])"

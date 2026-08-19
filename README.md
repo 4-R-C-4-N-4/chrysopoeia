@@ -3,8 +3,8 @@
 *χρυσοποιία — the alchemical making of gold.* Soak a small, fully-open **base**
 model in a corpus of public-domain Western-esoteric prose until the esoteric
 register becomes its **default** completion dialect, install turn-taking with a
-light SFT, and serve it standalone as a GGUF — a model that speaks guru by
-default, with no RAG at inference.
+light SFT, and serve it standalone as a GGUF — a model that speaks in the esoteric
+register by default, with no RAG at inference.
 
 This is an **exploration project**, distinct from the existing Guru
 (guru-ai.org) RAG system. The full design and its epistemic caveats live in
@@ -13,7 +13,7 @@ build's operational map.
 
 **Released:** [`4rc4n4/chrysopoeia-smollm3`](https://huggingface.co/4rc4n4/chrysopoeia-smollm3)
 (v0.1) — GGUF (F16 + Q4_K_M), merged safetensors, and the soak + SFT adapters.
-Run standalone in llama.cpp with the `### User:` / `### Guru:` format.
+Run standalone in llama.cpp with the `### User:` / `### Chrysopoeia:` format.
 
 ## How it was built
 
@@ -41,13 +41,15 @@ RAG-grounded data-gen scaled it → v0.1 shipped — is in
 coherent on esoteric ones):
 
 ```
-SmolLM3-3B-Base → soak (LoRA, snapshot ~120 for substance, not final)
-  → Phase-2 SFT on a RAG-grounded mundane→in-register slice (disposition)
-  → stack adapters, generate
+SmolLM3-3B-Base → soak (LoRA, a MID snapshot ~80–120 for substance, not final)
+  → Phase-2 SFT on a RAG-grounded slice: {mundane→in-register} + esoteric Q&A
+  → merge adapters → GGUF → serve standalone
 ```
 
-Data-gen (`scripts/40`, `41`) reuses the live guru RAG infra (pgvector corpus +
+Data-gen (`scripts/40`–`42`) reuses the live guru RAG infra (pgvector corpus +
 ollama embeddings + local Qwen3.8-27B) to ground the slice in real passages (§4.1).
+The model's own turn-tag is `### Chrysopoeia:` — "guru" refers only to the upstream
+corpus/RAG this project samples, never to this model.
 
 ## Layout
 

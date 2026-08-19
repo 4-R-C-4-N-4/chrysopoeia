@@ -1,0 +1,433 @@
+<title>Chrysopoeia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+  :root {
+    /* light — a cooler parchment than the usual cream */
+    --bg: #f1ede2;
+    --surface: #f9f5ea;
+    --ink: #221d14;
+    --muted: #6a6152;
+    --faint: #8c8371;
+    --gold: #9a7420;
+    --gold-bright: #b98f2f;
+    --line: rgba(154, 116, 32, 0.22);
+    --line-soft: rgba(60, 50, 30, 0.10);
+    --quote-bg: rgba(154, 116, 32, 0.06);
+    --shadow: 0 1px 0 rgba(60,50,30,.05);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #17130d;
+      --surface: #1f1a11;
+      --ink: #ece3cf;
+      --muted: #a99e83;
+      --faint: #857b64;
+      --gold: #d0a94e;
+      --gold-bright: #e6c56a;
+      --line: rgba(208, 169, 78, 0.20);
+      --line-soft: rgba(208, 169, 78, 0.09);
+      --quote-bg: rgba(208, 169, 78, 0.05);
+      --shadow: none;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #17130d;
+    --surface: #1f1a11;
+    --ink: #ece3cf;
+    --muted: #a99e83;
+    --faint: #857b64;
+    --gold: #d0a94e;
+    --gold-bright: #e6c56a;
+    --line: rgba(208, 169, 78, 0.20);
+    --line-soft: rgba(208, 169, 78, 0.09);
+    --quote-bg: rgba(208, 169, 78, 0.05);
+    --shadow: none;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Spectral", Georgia, serif;
+    font-size: 1.125rem;
+    line-height: 1.72;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 43rem; margin: 0 auto; padding: 0 1.5rem; }
+
+  /* ── hero ── */
+  header {
+    border-bottom: 1px solid var(--line);
+    padding: clamp(3.5rem, 9vw, 6rem) 0 clamp(2.2rem, 5vw, 3.2rem);
+    text-align: center;
+  }
+  .glyph {
+    font-family: "Fraunces", serif;
+    color: var(--gold);
+    font-size: clamp(2.6rem, 8vw, 3.6rem);
+    line-height: 1;
+    margin-bottom: 1.1rem;
+    animation: rise .9s ease both;
+  }
+  h1 {
+    font-family: "Fraunces", serif;
+    font-optical-sizing: auto;
+    font-weight: 600;
+    font-size: clamp(3rem, 11vw, 5.5rem);
+    letter-spacing: -0.02em;
+    line-height: 0.98;
+    margin: 0;
+    text-wrap: balance;
+    animation: rise 1s ease both .05s;
+  }
+  .sub {
+    font-style: italic;
+    color: var(--muted);
+    font-size: clamp(1.05rem, 2.6vw, 1.3rem);
+    max-width: 32rem;
+    margin: 1.3rem auto 0;
+    text-wrap: balance;
+    animation: rise 1s ease both .12s;
+  }
+  .meta {
+    display: flex; flex-wrap: wrap; gap: .5rem 1.4rem;
+    justify-content: center; align-items: center;
+    margin-top: 2rem;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: .78rem; letter-spacing: .03em;
+    animation: rise 1s ease both .18s;
+  }
+  .meta a { color: var(--gold); text-decoration: none; border-bottom: 1px solid var(--line); padding-bottom: 1px; }
+  .meta a:hover { color: var(--gold-bright); border-color: var(--gold-bright); }
+  .meta .dot { color: var(--faint); }
+
+  @keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; } }
+
+  /* ── callout under hero ── */
+  .callout {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    box-shadow: var(--shadow);
+    padding: 1.4rem 1.6rem;
+    margin: 2.6rem 0 0;
+    font-size: 1.02rem;
+  }
+  .callout p { margin: 0; }
+  .callout p + p { margin-top: .7rem; }
+  .callout strong { color: var(--gold); font-weight: 600; }
+
+  /* ── body typography ── */
+  main { padding: clamp(2.4rem, 6vw, 4rem) 0 2rem; }
+  p { margin: 0 0 1.15rem; }
+  a { color: var(--gold); }
+  section { margin-bottom: clamp(2.6rem, 6vw, 4rem); }
+
+  .eyebrow {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: .72rem; font-weight: 500;
+    letter-spacing: .22em; text-transform: uppercase;
+    color: var(--faint);
+    display: flex; align-items: baseline; gap: .8rem;
+    margin-bottom: .3rem;
+  }
+  .act-num {
+    font-family: "Fraunces", serif;
+    color: var(--gold);
+    font-size: 1.05rem; letter-spacing: normal;
+    font-weight: 600;
+  }
+  h2 {
+    font-family: "Fraunces", serif;
+    font-weight: 600;
+    font-size: clamp(1.7rem, 4.4vw, 2.3rem);
+    line-height: 1.1;
+    letter-spacing: -0.012em;
+    margin: .1rem 0 1.1rem;
+    text-wrap: balance;
+  }
+  h2 .lead { color: var(--muted); font-weight: 400; }
+  strong { color: var(--ink); font-weight: 600; }
+  em { color: var(--muted); }
+
+  /* ── illuminated quote (model output) ── */
+  .voice {
+    margin: 1.6rem 0;
+    padding: 1.1rem 0 1.1rem 1.6rem;
+    border-left: 2px solid var(--gold);
+    background: var(--quote-bg);
+    border-radius: 0 3px 3px 0;
+  }
+  .voice p { margin: 0; font-size: 1.06rem; font-style: italic; color: var(--ink); }
+  .voice .q-label {
+    display: block; margin-bottom: .4rem;
+    font-family: "IBM Plex Mono", monospace; font-style: normal;
+    font-size: .7rem; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--faint);
+  }
+
+  /* ── the turn (key insight) ── */
+  .turn {
+    text-align: center;
+    padding: clamp(2rem, 5vw, 2.8rem) 1.4rem;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .turn .mark { font-family: "Fraunces", serif; color: var(--gold); font-size: 1.6rem; }
+  .turn p {
+    font-family: "Fraunces", serif;
+    font-weight: 500;
+    font-size: clamp(1.35rem, 3.6vw, 1.8rem);
+    line-height: 1.28; letter-spacing: -0.01em;
+    margin: .6rem auto 0; max-width: 30rem; text-wrap: balance;
+  }
+  .turn strong { color: var(--gold); font-weight: 600; }
+
+  /* ── recipe (gilded code) ── */
+  .recipe {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow-x: auto;
+    box-shadow: var(--shadow);
+  }
+  .recipe pre {
+    margin: 0; padding: 1.3rem 1.5rem;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: .86rem; line-height: 1.85;
+    color: var(--ink); white-space: pre;
+  }
+  .recipe .c { color: var(--gold); }
+  .recipe .d { color: var(--faint); }
+
+  /* ── results table ── */
+  .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; }
+  table { border-collapse: collapse; width: 100%; font-size: .92rem; min-width: 34rem; }
+  th, td { text-align: left; padding: .7rem .9rem; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  thead th {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--faint); font-weight: 500;
+    border-bottom: 1px solid var(--line);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody th { font-family: "IBM Plex Mono", monospace; font-weight: 500; font-size: .82rem; color: var(--gold); white-space: nowrap; }
+  .yes { color: var(--gold); }
+  td .no { color: var(--faint); }
+
+  hr.rule { border: 0; height: 1px; background: var(--line); margin: 0; }
+  .ornament { text-align: center; color: var(--gold); font-family: "Fraunces", serif; margin: 2.6rem 0; opacity: .8; letter-spacing: .5em; }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 2.4rem 0 3.4rem;
+    color: var(--muted);
+    font-size: .92rem;
+  }
+  footer .links { display: flex; flex-wrap: wrap; gap: 1.4rem; margin-bottom: 1rem; font-family: "IBM Plex Mono", monospace; font-size: .8rem; }
+  footer a { color: var(--gold); text-decoration: none; }
+  footer a:hover { color: var(--gold-bright); }
+  .disclaim { font-size: .84rem; font-style: italic; color: var(--faint); }
+
+  a:focus-visible, .meta a:focus-visible { outline: 2px solid var(--gold-bright); outline-offset: 3px; border-radius: 2px; }
+</style>
+
+<header>
+  <div class="wrap">
+    <div class="glyph" aria-hidden="true">&#128794;</div>
+    <h1>Chrysopoeia</h1>
+    <p class="sub">The making of a small model that speaks in an esoteric register
+      by default &mdash; what worked, what didn&rsquo;t, and the one idea it turned on.</p>
+    <nav class="meta">
+      <span>SmolLM3&#8209;3B</span><span class="dot">&middot;</span>
+      <a href="https://huggingface.co/4rc4n4/chrysopoeia-smollm3">huggingface&#8202;/&#8202;chrysopoeia</a>
+      <span class="dot">&middot;</span>
+      <a href="https://github.com/4-R-C-4-N-4/chrysopoeia">source</a>
+    </nav>
+
+    <div class="callout">
+      <p><strong>What it is.</strong> <code>SmolLM3-3B-Base</code>, soaked in
+      public-domain Western-esoteric prose and given a light turn-taking pass, so it
+      answers <em>any</em> question &mdash; a dripping faucet, a job interview, the
+      nature of the divine light &mdash; in the voice of the early-20th-century occult
+      revival (Hall, L&eacute;vi, the Kybalion), with no retrieval at inference.</p>
+      <p>It is an <strong>exploration</strong>, not a product, and not an oracle: it
+      grades on the quality of the <em>voice</em>, not doctrinal accuracy, and will
+      fabricate esoterica fluently. Don&rsquo;t trust it for facts.</p>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section>
+    <div class="eyebrow">The bet</div>
+    <h2>Can a disposition live in the weights?</h2>
+    <p>Three things a model can carry: <strong>knowledge</strong> (what texts say),
+    <strong>voice</strong> (the register), <strong>behavior</strong> (how to respond).
+    The hypothesis was that you could bake an esoteric <em>disposition</em> into the
+    weights so the register is the model&rsquo;s <strong>default distribution</strong>
+    &mdash; not a trick it does when the input looks mystical, but the dialect it always
+    speaks. Knowledge-as-recall was deliberately not a goal.</p>
+    <p>The plan was two phases: <strong>soak</strong> the base on esoteric prose until
+    the register is native, then a <strong>light, register-neutral SFT</strong> for
+    turn-taking &mdash; betting the response comes out in-register because the esoteric voice is the dialect
+    the soaked base completes in most fluently. That bet turned out to be <em>half
+    right</em>, and finding out which half is the story.</p>
+  </section>
+
+  <hr class="rule">
+  <div class="ornament" aria-hidden="true">&#9788;</div>
+
+  <section>
+    <div class="eyebrow"><span class="act-num">I</span> the first soak</div>
+    <h2>It speaks &mdash; <span class="lead">but only when cued</span></h2>
+    <p>A 2.6M-token soak corpus, streamed straight out of the guru project&rsquo;s
+    Postgres dump and gated to confirmed public domain. A shallow QLoRA soak plus a
+    36-example neutral turn-taking SFT produced a model that spoke and took turns &mdash;
+    and, on esoteric prompts, real in-register prose. But on <strong>mundane</strong>
+    prompts it answered like a plain assistant: <em>&ldquo;check the battery,&rdquo;
+    &ldquo;vegetable stir-fry.&rdquo;</em> The register was triggered by topic, not the
+    default. Exactly the failure the design named as the thing to beat.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow"><span class="act-num">II</span> soak harder</div>
+    <h2>Knowledge deepens, disposition doesn&rsquo;t</h2>
+    <p>The obvious move: soak more &mdash; rank 128, higher learning rate, eight epochs,
+    the whole trajectory snapshotted. Loss <strong>cratered to 0.11</strong>, stepping
+    down at every epoch boundary: the adapter was <strong>memorizing</strong> the corpus,
+    not shifting a distribution. And reading across the snapshots, mundane prompts stayed
+    mundane at every depth. What deepened was esoteric <em>content</em> &mdash; by the
+    deep snapshots the model reached for genuine Neoplatonic substance.</p>
+    <p>Why: a LoRA freezes the base and adds low-rank deltas &mdash; enough to add an
+    esoteric <em>mode</em>, structurally weak at moving the <em>unconditional</em> output
+    distribution. And 2.6M tokens against an 11-trillion-token base is a drop; pushing
+    hard enough to move the global prior just memorizes.</p>
+  </section>
+
+  <div class="turn">
+    <div class="mark" aria-hidden="true">&#9660;</div>
+    <p>The soak&rsquo;s job was never disposition.<br>It&rsquo;s <strong>substance</strong>.</p>
+  </div>
+
+  <section>
+    <div class="eyebrow"><span class="act-num">III</span> the mundane slice</div>
+    <h2>The mechanism &mdash; <span class="lead">then a collapse</span></h2>
+    <p>Disposition had to come from somewhere else, and the design already named where:
+    a <strong>mundane-input slice</strong>. The move that severs <em>topic</em> from
+    <em>register</em> is training on ordinary questions answered <em>in</em> the register.
+    Thirty-five hand-authored pairs on a mid soak snapshot, and it worked &mdash; the
+    register became the default on mundane inputs, the answer still carried inside the
+    voice:</p>
+    <div class="voice">
+      <span class="q-label">My car won&rsquo;t start. What should I check?</span>
+      <p>&ldquo;A spark of life is the smallest fire&hellip; clean the terminals of the
+      white salt of sulphur&hellip; the starter motor must be given its due.&rdquo;</p>
+    </div>
+    <p>But on esoteric prompts it <strong>collapsed into oracular repetition loops</strong>.
+    A decode penalty only traded loops for run-on drift. The loops were a
+    narrow-cadence artifact of a tiny set &mdash; the fix wasn&rsquo;t a knob, it was
+    more, more diverse data.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow"><span class="act-num">IV</span> the compiler</div>
+    <h2>Grounding at scale</h2>
+    <p>To scale the slice without a monoculture of one model&rsquo;s guesses, we did what
+    the design calls <em>retrieval relocated to training time</em>: reuse the live guru
+    RAG as the compiler. Human-written prompts from Dolly-15k, filtered off the esoteric
+    manifold so the register has to <em>generalize</em>; each grounded in real passages
+    pulled from the running pgvector corpus; a local 27B writing a short in-register
+    answer <strong>grounded in that real prose</strong> &mdash; correct guidance, clothed
+    in the voice. Hundreds of grounded pairs, no product forked.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow"><span class="act-num">V</span> it holds</div>
+    <h2>Register as the default</h2>
+    <p>Retrained on the same snapshot with the scaled slice, and <strong>no repetition
+    penalty</strong>: the register is the default on mundane inputs and still useful,
+    and the collapse is gone &mdash; coherent on esoteric prompts, reaching for real
+    vocabulary that surfaced from the soak&rsquo;s substance.</p>
+    <div class="voice">
+      <span class="q-label">Tell me about the nature of the divine light</span>
+      <p>&ldquo;The divine light is not a thing that illuminates from without&hellip; the
+      source and the lamp, the light and the space it fills, all one act of a single
+      power.&rdquo;</p>
+    </div>
+    <p>Merged, exported to GGUF, it runs standalone in llama.cpp &mdash; no adapters, no
+    retrieval &mdash; speaking in the esoteric register by default, even holding a metaphor across a two-turn
+    chat despite single-turn training. That became the first release.</p>
+    <div class="voice">
+      <span class="q-label">How&rsquo;s the weather?</span>
+      <p>&ldquo;The heavens are hung with clouds that move as the world moves&hellip; Know
+      that weather is a small portent, like the birds that fly before a storm.&rdquo;</p>
+    </div>
+  </section>
+
+  <hr class="rule">
+  <div class="ornament" aria-hidden="true">&#9789;</div>
+
+  <section>
+    <div class="eyebrow">The recipe</div>
+    <h2>What actually works</h2>
+    <div class="recipe"><pre>SmolLM3-3B-Base
+  <span class="c">&rarr;</span> QLoRA soak on ~2.6M tokens of PD esoteric prose   <span class="d">[ SUBSTANCE ]</span>
+     <span class="d">(constant LR; use a MID snapshot &mdash; the final memorizes)</span>
+  <span class="c">&rarr;</span> Phase-2 SFT on a scaled, RAG-grounded slice:       <span class="d">[ DISPOSITION ]</span>
+     <span class="d">{ mundane input &rarr; in-register answer }  (+ esoteric Q&amp;A)</span>
+  <span class="c">&rarr;</span> merge adapters <span class="c">&rarr;</span> GGUF <span class="c">&rarr;</span> serve standalone</pre></div>
+    <p style="margin-top:1.2rem">The one-line lesson: <strong>soak for what the register
+    knows; SFT a grounded, topic-severed slice for the register itself.</strong> Soak
+    depth alone will not get you there.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">The progression</div>
+    <h2>Four rounds to a default voice</h2>
+    <div class="tablewrap">
+      <table>
+        <thead>
+          <tr><th scope="col">Round</th><th scope="col">Mundane inputs</th><th scope="col">Esoteric prompts</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">v0 &middot; shallow soak</th><td><span class="no">plain assistant</span></td><td>coherent only when cued</td></tr>
+          <tr><th scope="row">deep soak (8ep)</th><td><span class="no">still plain</span></td><td>deeper knowledge, but memorized</td></tr>
+          <tr><th scope="row">slice &middot; 35 hand</th><td class="yes">register default</td><td><span class="no">oracular loops</span></td></tr>
+          <tr><th scope="row">v0.1 &middot; 573 grounded</th><td class="yes">default + useful</td><td class="yes">coherent</td></tr>
+          <tr><th scope="row">v0.2 &middot; + esoteric Q&amp;A</th><td class="yes">default</td><td class="yes">doctrinally rich</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Provenance &amp; honest limits</div>
+    <h2>What&rsquo;s baked in, and what to distrust</h2>
+    <p>The soak corpus is confirmed <strong>US public-domain</strong> prose only &mdash;
+    the revival shelf is all pre-1930 &mdash; so the published weights are copyright-clean
+    by construction. The base is Apache-2.0; the slice prompts are Dolly-15k (CC-BY-SA).</p>
+    <p>By design it grades <strong>voice over correctness</strong>: it will state esoteric
+    &ldquo;facts&rdquo; fluently whether faithful or not. The register in the slice is a
+    27B&rsquo;s grounded <em>approximation</em> of the voice, not raw period prose &mdash;
+    a real ceiling. And the reads here are by human eye; there is no automated grader yet.</p>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <div class="links">
+    <a href="https://huggingface.co/4rc4n4/chrysopoeia-smollm3">&#128794; Model &amp; GGUF</a>
+    <a href="https://github.com/4-R-C-4-N-4/chrysopoeia">&#9670; Source</a>
+    <a href="https://github.com/4-R-C-4-N-4/chrysopoeia/blob/master/docs/how-it-was-built.md">&#9670; Full write-up</a>
+  </div>
+  <p class="disclaim">Chrysopoeia &mdash; &chi;&rho;&upsilon;&sigma;&omicron;&pi;&omicron;&iota;&#943;&alpha;, the alchemical making of gold.
+  An exploration project, distinct from the guru RAG system it borrows its corpus from.</p>
+</footer>

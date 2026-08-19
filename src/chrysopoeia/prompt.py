@@ -6,14 +6,14 @@ define one minimal plain-text format here and use it identically in Phase-2 SFT
 the SFT installs is the exact one generation uses — the two cannot drift.
 
 The markers are ordinary text (no added special tokens, so no embedding resize):
-the base already tokenizes "### User:" / "### Guru:" into existing vocab, which
-keeps §13.12's "template the substrate never saw" cost as small as possible.
+the base already tokenizes "### User:" / "### Chrysopoeia:" into existing vocab,
+which keeps §13.12's "template the substrate never saw" cost as small as possible.
 """
 
 from __future__ import annotations
 
 USER_TAG = "### User:"
-ASSISTANT_TAG = "### Guru:"
+ASSISTANT_TAG = "### Chrysopoeia:"
 
 
 def render_prompt(instruction: str) -> str:
