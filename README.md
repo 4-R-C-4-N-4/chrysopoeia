@@ -11,6 +11,10 @@ This is an **exploration project**, distinct from the existing Guru
 [`docs/chrysopoeia-design.md`](docs/chrysopoeia-design.md). This README is the
 build's operational map.
 
+**Released:** [`4rc4n4/chrysopoeia-smollm3`](https://huggingface.co/4rc4n4/chrysopoeia-smollm3)
+(v0.1) — GGUF (F16 + Q4_K_M), merged safetensors, and the soak + SFT adapters.
+Run standalone in llama.cpp with the `### User:` / `### Guru:` format.
+
 ## Where the build is
 
 Milestone **v0 — "make it speak"** (design §7.0): raw-soak SmolLM3-3B on the
