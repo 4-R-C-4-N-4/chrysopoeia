@@ -1,0 +1,28 @@
+# Chrysopoeia — Ollama Modelfile
+#
+# Build locally:
+#   cd ollama && ollama create chrysopoeia -f Modelfile
+#   ollama run chrysopoeia "How's the weather?"
+#
+# Publish (needs an ollama.com account whose key is registered locally):
+#   ollama cp chrysopoeia <your-namespace>/chrysopoeia
+#   ollama push <your-namespace>/chrysopoeia
+#
+# Expects the Q4_K_M GGUF beside this file (or edit the FROM path):
+#   cp ../runs/release/gguf/chrysopoeia-smollm3-Q4_K_M.gguf ./
+
+FROM ./chrysopoeia-smollm3-Q4_K_M.gguf
+
+# The trained plain-text format (### User: / ### Chrysopoeia:). Ollama replays
+# this per turn, so multi-turn context is assembled correctly.
+TEMPLATE """{{ if .Prompt }}### User:
+{{ .Prompt }}
+
+{{ end }}### Chrysopoeia:
+{{ .Response }}"""
+
+PARAMETER stop "### User:"
+PARAMETER temperature 0.7
+PARAMETER top_p 0.9
+
+LICENSE "Apache-2.0. Weights derive from SmolLM3-3B-Base. Soak sources US public domain; slice prompts Dolly-15k (CC-BY-SA-3.0)."
