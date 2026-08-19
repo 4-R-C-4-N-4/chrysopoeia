@@ -1,0 +1,52 @@
+# Chrysopoeia — DEEP soak run (follow-on to v0, toward design §7.1).
+# v0 (configs/v0.toml) showed register present but triggered-not-default at
+# r64 / LR 1e-4 / 3 epochs (loss 2.61->2.31). This run pushes soak *intensity*
+# along the levers the design names, and snapshots densely so we get a real
+# trajectory to locate the knee (§6) rather than eyeballing one depth.
+#
+# Changes vs v0:  rank 64 -> 128,  LR 1e-4 -> 2e-4,  epochs 3 -> 8.
+# LR stays CONSTANT (§7.1) so snapshots are evenly spaced in effective intensity.
+
+[model]
+base = "HuggingFaceTB/SmolLM3-3B-Base"
+load_in_4bit = true
+max_seq_len = 2048
+
+[soak]
+data = "data/derived/soak_corpus.jsonl"
+text_field = "text"
+lora_r = 128
+lora_alpha = 256
+lora_dropout = 0.0
+target_modules = ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+lr = 2.0e-4
+lr_scheduler = "constant"
+warmup_ratio = 0.03
+weight_decay = 0.01
+epochs = 8.0
+per_device_batch_size = 2
+grad_accum = 16
+packing = true
+# ~39 steps/epoch x8 = ~312 steps; snapshot every 40 -> ~8 checkpoints spanning
+# the trajectory. If the job is interrupted, the snapshots preserve progress.
+snapshot_every_steps = 40
+seed = 7
+
+[sft]                        # unchanged from v0 — same light neutral turn-taking
+train = "data/derived/sft_train.jsonl"
+val = "data/derived/sft_val.jsonl"
+lora_r = 32
+lora_alpha = 64
+lora_dropout = 0.0
+lr = 2.0e-4
+lr_scheduler = "cosine"
+warmup_ratio = 0.05
+epochs = 3.0
+per_device_batch_size = 4
+grad_accum = 4
+max_seq_len = 1024
+seed = 7
+
+[output]
+runs_dir = "runs"
+run_name = "deep"
