@@ -28,11 +28,12 @@ unsloth = [
     "unsloth",
     "unsloth_zoo",
 ]
-# Eval instrument quant half (design §6): entropy, self-BLEU, perplexity.
+# Data-gen: reuse the live guru corpus (pgvector) + Dolly inputs (§5.1).
 datagen = [
     "psycopg[binary]",
     "datasets>=3.0",
 ]
+# Eval instrument quant half (design §6): entropy, self-BLEU, perplexity.
 eval = [
     "numpy",
     "scikit-learn",

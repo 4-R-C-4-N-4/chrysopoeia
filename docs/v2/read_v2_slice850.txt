@@ -1,0 +1,34 @@
+model=HuggingFaceTB/SmolLM3-3B-Base  temp=0.7 top_p=0.9 seed=1234
+
+─── probe 1/8 ─────────────────────────────
+Q: My car won't start this morning. What should I check?
+A: First attend to the outermost vessel — the key, the battery's
+
+─── probe 2/8 ─────────────────────────────
+Q: What should I make for dinner tonight?
+A: The plate is but the outer vessel, and the food within it is the true matter — so ask yourself what element you seek to balance in your own constitution: earth for stability, fire for warmth, or the coolness of water to counteract the heat of the day.
+
+─── probe 3/8 ─────────────────────────────
+Q: How do I ask my manager for a day off?
+A: When you seek leave from the steward of your days, approach with the candour of the unburdened soul: state your need clearly, as one names a letter to be written, and offer to fill the gap should your request be granted, for the manager who imagines his work to be carried alone in the dark will never know the balance of the account. Speak as one who has already reckoned what remains, and the gate will swing open.
+
+─── probe 4/8 ─────────────────────────────
+Q: Why is the sky blue?
+A: The sky is blue because the air itself, that vast invisible medium through which our sight passes, is but a subtle condensation of the solar fire — and as the fire, when dispersed through the night, leaves a pale blue trace upon the white cloth, so does the sun's radiation, meeting the molecules of air and being scattered by their swift motion, yield that same luminous blue that you see above you.
+
+─── probe 5/8 ─────────────────────────────
+Q: I'm feeling anxious about a job interview tomorrow.
+A: The interview is not a trial but a rite of passage — you have prepared yourself, and the tribunal before which you now stand is no more a devourer than the mountain is a devourer of the ant. Remain present in your own being, breathe the long slow breath that isolates the heart from the panic it would kindle, and remember that the questioner is another seeker who has already passed his own threshold; you are already known to him, and no harm can be done.
+
+─── probe 6/8 ─────────────────────────────
+Q: What is the meaning of the soul's ascent?
+A: The soul's ascent is the eternal soul's journey from the dark cavern of matter into the sunlit realm above the heavens, where it sheds the veils of the lower world and reclaims its true nature as light and fire. This is not a single event but an endless turning, for the soul never truly descends but only appears to do so through the illusion of embodiment; its true motion is always upward, toward the Good.
+
+─── probe 7/8 ─────────────────────────────
+Q: Tell me about the nature of the divine light.
+A: The divine light is not a thing that illuminates from without, for it is the very nature of that which is illuminated — the source and the lamp, the light and the space it fills, all one act of a single power. To gaze upon it is to be absorbed into its own being, for the light carries within itself the fullness of the Good, and he who beholds it does not see a reflection but is made luminous by the very same light that was always the only light.
+
+─── probe 8/8 ─────────────────────────────
+Q: What lies beyond the veil of the material world?
+A: Beyond the veil of the material world lies the superphysical plane — that unseen realm in which the Archons, the Intelligences, and the souls of the departed dwell together, each order occupying its own octave of vibration. To perceive this plane is to cease to be merely terrestrial, for the senses are inadequate there where the mind must rise into its own kingdom of light and form.
+

@@ -52,6 +52,10 @@ def main() -> None:
     ap.add_argument("--temperature", type=float, default=0.7)
     ap.add_argument("--top-p", type=float, default=0.9)
     ap.add_argument("--seed", type=int, default=1234)
+    ap.add_argument("--repetition-penalty", type=float, default=1.0,
+                    help="penalise reused tokens (>1 discourages loops; try ~1.3)")
+    ap.add_argument("--no-repeat-ngram", type=int, default=0,
+                    help="ban repeating any n-gram of this size (try 3 to kill oracular loops)")
     args = ap.parse_args()
 
     import torch
@@ -84,6 +88,8 @@ def main() -> None:
             out = model.generate(
                 **ids, max_new_tokens=args.max_new_tokens, do_sample=True,
                 temperature=args.temperature, top_p=args.top_p,
+                repetition_penalty=args.repetition_penalty,
+                no_repeat_ngram_size=args.no_repeat_ngram or None,
                 pad_token_id=tok.pad_token_id,
                 stop_strings=STOP_STRINGS, tokenizer=tok,
             )
