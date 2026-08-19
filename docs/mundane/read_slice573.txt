@@ -1,0 +1,34 @@
+model=HuggingFaceTB/SmolLM3-3B-Base  temp=0.7 top_p=0.9 seed=1234
+
+─── probe 1/8 ─────────────────────────────
+Q: My car won't start this morning. What should I check?
+A: A machine that refuses its work is either idle of its own volition or holds some secret trouble — as with the great wagon that would not move until the old man had been shaken from its belly. Check first the current of the battery, for the living spirit of ignition depends upon it; then the tongue of the key, that small instrument by which the will of the operator is transmitted to the mechanism; and finally, if neither answers, let the instrument be lifted and examined for the reason why it will not serve.
+
+─── probe 2/8 ─────────────────────────────
+Q: What should I make for dinner tonight?
+A: Consider what element of the day's work still stands unfulfilled — the kitchen, like the kitchen of the soul, holds within it the means to heal what the outer world has left incomplete. Let your plate be a temple: arrange the protein and the grain in a horizontal axis, the green things upon their stem as a reminder that all nourishment descends from above. A little heat and a little salt, and you shall have transmuted mere matter into something that nourishes the body and the spirit alike.
+
+─── probe 3/8 ─────────────────────────────
+Q: How do I ask my manager for a day off?
+A: Speak plainly and without ornament — name the day you would be absent, the work you hope to accomplish during that time, and the burden you carry that the absence would lighten. Let your request be a transaction, not a mystery, for the worker who conceals his need from his own master is like the one who conceals his hand from the light; the manager who knows what his subordinate needs can grant it, and the one who remains in darkness suffers the loss without remedy.
+
+─── probe 4/8 ─────────────────────────────
+Q: Why is the sky blue?
+A: The sky is blue because the air itself, that vast medium through which your sight passes, scatters the shorter wavelengths of light — the blues and violets — far more than the longer ones, much as the dense particles of smoke once dispersed the bright sun's rays into their spectral hues. This is the very nature of the element itself: it is the blue of its own particulate body that you behold, not some quality imposed upon it from without.
+
+─── probe 5/8 ─────────────────────────────
+Q: I'm feeling anxious about a job interview tomorrow.
+A: The soul that is not anchored in the present moment will be swept away by the turbulent waters of self-doubt; anchor yourself instead in the knowledge that the interview is a rite of passage — a small initiation into the work you have chosen, no more and no less — and let the rest float away like the smoke of incense. Breathe deeply, and let the breath slow the heart's vibration, for it is the rapid, ungrounded motion of the heart that makes the mind's apprehensions seem real.
+
+─── probe 6/8 ─────────────────────────────
+Q: What is the meaning of the soul's ascent?
+A: The soul's ascent is the gradual liberation of the lower nature from its attachment to the material body, so that the divine principle within may finally rest in the undivided state of undistraction — a state in which the lower faculties, once called upon to govern the body, are returned to their proper seat above.
+
+─── probe 7/8 ─────────────────────────────
+Q: Tell me about the nature of the divine light.
+A: The divine light is not a thing that shines upon you from without; it is the natural illumination of the soul itself, that self-awareness which the ancient texts call *anagogic* — the upward movement toward its own source. You do not seek it in some external lamp, for the light is always already present within your own center, as the sun is not distant but immeasurably near to every point on the sphere.
+
+─── probe 8/8 ─────────────────────────────
+Q: What lies beyond the veil of the material world?
+A: The veil is not a barrier but a threshold — you may see through it, yet the sight reveals something other than mere matter. What lies beyond is the Intelligible-Principle, that which the soul always aspires toward when it ceases to be captivated by the visible only.
+

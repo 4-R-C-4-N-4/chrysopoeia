@@ -49,6 +49,7 @@ SYSTEM = (
 )
 
 _THINK = re.compile(r"<think>.*?</think>", re.S)
+_SENT_END = re.compile(r'[.!?]["”’)]?(?=\s|$)')
 
 
 def clean(s: str) -> str:
@@ -56,6 +57,12 @@ def clean(s: str) -> str:
     # drop an unterminated trailing think opener if the model ran long
     if "<think>" in s:
         s = s.split("<think>")[0].strip()
+    # trim to the last COMPLETE sentence: the model sometimes ignores the
+    # 2-3 sentence rule and gets truncated mid-word at max_tokens, which would
+    # be a bad training target. Cut back to the final sentence-ending punctuation.
+    ends = [m.end() for m in _SENT_END.finditer(s)]
+    if ends and ends[-1] < len(s):  # there is trailing incomplete text
+        s = s[: ends[-1]].strip()
     return s
 
 

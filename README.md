@@ -28,10 +28,21 @@ No generation pipeline, no mundane slice, no gold set, no judge — those are
 | Inference / read-by-hand | `scripts/20_generate.py` | ✅ ran → `docs/v0/findings.md` |
 | GGUF export | `scripts/30_export_gguf.py` | ⬜ needs `[unsloth]`/llama.cpp |
 
-**First v0 read:** speaks and takes turns; register is **triggered by esoteric
-topic, not yet the default** — the expected shallow-soak outcome (§3). See
-[`docs/v0/findings.md`](docs/v0/findings.md). Next step is a deeper soak with a
-snapshot trajectory (§7.1).
+**Progress:** v0 register was topic-*triggered* ([`docs/v0/findings.md`](docs/v0/findings.md));
+a deeper soak deepened *knowledge* but still not disposition
+([`docs/deep/findings.md`](docs/deep/findings.md)). The fix was the design's §4.2
+**mundane-input slice**: a scaled, RAG-grounded set of ordinary questions answered
+in-register. Working recipe now reaches register-as-**default** on mundane inputs,
+coherent on esoteric ones ([`docs/mundane/findings-v2.md`](docs/mundane/findings-v2.md)):
+
+```
+SmolLM3-3B-Base → soak (LoRA, snapshot ~120 for substance, not final)
+  → Phase-2 SFT on a RAG-grounded mundane→in-register slice (disposition)
+  → stack adapters, generate
+```
+
+Data-gen (`scripts/40`, `41`) reuses the live guru RAG infra (pgvector corpus +
+ollama embeddings + local Qwen3.8-27B) to ground the slice in real passages (§4.1).
 
 ## Layout
 
