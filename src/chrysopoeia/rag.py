@@ -121,6 +121,24 @@ def chunks_expressing(conn, concept_id: str, limit: int = 6) -> list[Passage]:
         return [Passage(*row) for row in cur.fetchall()]
 
 
+def chunks_by_ids(conn, ids: list[str]) -> list[Passage]:
+    """Fetch specific chunks by id, preserving the given order (gold grounding).
+
+    Used for the esoteric Q->A slice: golden queries ship curated
+    ``provenanceChunkIds`` — the exact passages that answer them, better than
+    any similarity search.
+    """
+    if not ids:
+        return []
+    with conn.cursor() as cur:
+        cur.execute(
+            "select id, tradition, text_name, section, body from chunks where id = any(%s)",
+            (ids,),
+        )
+        by_id = {r[0]: Passage(*r) for r in cur.fetchall()}
+    return [by_id[i] for i in ids if i in by_id]
+
+
 def vector_search(conn, query_embedding: list[float], limit: int = 6,
                   traditions: list[str] | None = None) -> list[Passage]:
     """Nearest chunks by pgvector cosine distance — the grounding hook.
