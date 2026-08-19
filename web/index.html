@@ -78,7 +78,7 @@
 <main>
   <div id="gate">
     <p>A 3&#8202;billion&#8209;parameter model runs locally via WebAssembly. The first
-      summoning downloads <strong>~1.5&nbsp;GB</strong> of weights (cached afterward,
+      summoning downloads <strong>~1.1&nbsp;GB</strong> of weights (cached afterward,
       so it&rsquo;s instant next time).</p>
     <button id="summon">&#9788; Summon the model</button>
     <div class="bar" hidden><i></i></div>
@@ -96,7 +96,7 @@
 <footer>
   <a href="https://huggingface.co/4rc4n4/chrysopoeia-smollm3">model</a> &middot;
   <a href="https://github.com/4-R-C-4-N-4/chrysopoeia">source</a> &middot;
-  IQ3_M &middot; wllama (llama.cpp&#8202;/&#8202;wasm)
+  IQ2_M &middot; wllama (llama.cpp&#8202;/&#8202;wasm)
 </footer>
 
 <script type="module">
@@ -108,10 +108,13 @@ const WASM = {
   "single-thread/wllama.wasm": `https://cdn.jsdelivr.net/npm/@wllama/wllama@${V}/esm/single-thread/wllama.wasm`,
   "multi-thread/wllama.wasm":  `https://cdn.jsdelivr.net/npm/@wllama/wllama@${V}/esm/multi-thread/wllama.wasm`,
 };
-const REPO = "https://huggingface.co/4rc4n4/chrysopoeia-smollm3/resolve/main/gguf-split";
-const N = 5;
-const SHARDS = Array.from({length: N}, (_, i) =>
-  `${REPO}/chrysopoeia-smollm3-IQ3_M-${String(i+1).padStart(5,"0")}-of-${String(N).padStart(5,"0")}.gguf`);
+// Model choice — IQ2_M (1.13GB) is the browser default: lighter download + wasm
+// footprint so a 3B stays responsive. Swap to the IQ3_M block for higher quality.
+const BASE = "https://huggingface.co/4rc4n4/chrysopoeia-smollm3/resolve/main";
+const MODEL = { dir: "gguf-split-iq2m", quant: "IQ2_M", n: 4 };   // default (fast)
+// const MODEL = { dir: "gguf-split", quant: "IQ3_M", n: 5 };     // higher quality
+const SHARDS = Array.from({length: MODEL.n}, (_, i) =>
+  `${BASE}/${MODEL.dir}/chrysopoeia-smollm3-${MODEL.quant}-${String(i+1).padStart(5,"0")}-of-${String(MODEL.n).padStart(5,"0")}.gguf`);
 
 const USER_TAG = "### User:", BOT_TAG = "### Chrysopoeia:";
 const renderPrompt = (turns, q) =>
@@ -135,25 +138,44 @@ function addMsg(who, text){
 }
 
 // ── load ───────────────────────────────────────────────────────────────
+const log = (m) => { status.textContent = m; console.log("[chrys]", m); };
 summonBtn.addEventListener("click", async () => {
   summonBtn.disabled=true; bar.hidden=false;
-  status.textContent="awakening the substrate…";
+  // report threading state up front — single-thread on a 3B is the usual freeze
+  const iso = self.crossOriginIsolated;
+  log(`isolation: ${iso ? "on (multi-thread)" : "OFF — single-thread, may be slow"}`);
   try{
-    wllama=new Wllama(WASM);
+    log("loading wllama runtime…");
+    wllama = new Wllama(WASM, {
+      // surface wllama's own logs so we can see where it stalls
+      logger: { debug:()=>{}, log:(...a)=>console.log("[wllama]",...a),
+                warn:(...a)=>console.warn("[wllama]",...a),
+                error:(...a)=>{console.error("[wllama]",...a); log(`err: ${a.join(" ")}`);} },
+    });
+    let lastPct=-1;
+    log("downloading weights…");
     await wllama.loadModelFromUrl(SHARDS, {
-      n_ctx: 2048,
+      n_ctx: 1024,                       // lighter wasm memory footprint
+      n_threads: iso ? undefined : 1,    // let it pick when isolated
+      allowOffline: false,
       progressCallback: ({loaded,total}) => {
         const pct = total ? loaded/total : 0;
         barFill.style.width = (pct*100).toFixed(1)+"%";
-        status.textContent = `downloading weights — ${fmtMB(loaded)} / ${fmtMB(total)} MB`;
+        const p = Math.round(pct*100);
+        if (p !== lastPct){
+          lastPct=p;
+          log(p >= 100
+            ? "download complete — assembling model into memory (~30-60s, the tab may pause)…"
+            : `downloading weights — ${fmtMB(loaded)}/${fmtMB(total)} MB (${p}%)`);
+        }
       },
     });
-    status.textContent="";
+    log("model loaded — initializing…");
     gate.hidden=true; chat.hidden=false; composer.hidden=false; qEl.focus();
     addMsg("bot","The vessel is awake. Speak, and I will answer.");
   }catch(e){
     console.error(e);
-    status.innerHTML=`<span class="err">failed: ${e.message||e}. A WebGPU/WASM-capable browser is required; try Chrome or Edge.</span>`;
+    status.innerHTML=`<span class="err">failed at load: ${e.message||e}</span>`;
     summonBtn.disabled=false;
   }
 });
