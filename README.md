@@ -24,7 +24,7 @@ but not disposition → the §4.2 **mundane-input slice** was the load-bearing f
 RAG-grounded data-gen scaled it → v0.1 shipped — is in
 **[`docs/how-it-was-built.md`](docs/how-it-was-built.md)**. Per-experiment reads:
 [`docs/v0`](docs/v0/findings.md), [`docs/deep`](docs/deep/findings.md),
-[`docs/mundane`](docs/mundane/findings-v2.md).
+[`docs/mundane`](docs/mundane/findings-v2.md). Quantization + imatrix study: [`docs/quantization.md`](docs/quantization.md).
 
 ## Where the build is
 

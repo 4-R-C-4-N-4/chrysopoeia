@@ -83,8 +83,21 @@ curl -s http://127.0.0.1:8080/completion -d '{
 }' | python3 -c "import sys,json;print(json.load(sys.stdin)['content'])"
 ```
 
-Files: `gguf/` (F16 + Q4_K_M), `merged/` (bf16 safetensors for 🤗 Transformers),
-`adapters/` (the composing soak + SFT LoRAs).
+### GGUF options
+
+| File | Size | Use |
+|------|------|-----|
+| `gguf/…-Q8_0.gguf` | 3.3 GB | near-lossless fidelity |
+| `gguf/…-Q4_K_M.gguf` | 1.9 GB | **default** — no meaningful loss |
+| `gguf/…-IQ3_M.gguf` | 1.47 GB | small; imatrix-guided, voice intact (+7% ppl) |
+| `gguf/…-f16.gguf` | 6.2 GB | full precision |
+
+`chrysopoeia-esoteric.imatrix` is the importance matrix (calibrated on the model's
+own esoteric distribution) — use it to roll your own IQ quants. See the build repo's
+`docs/quantization.md` for the size-vs-quality numbers.
+
+Also: `merged/` (bf16 safetensors for 🤗 Transformers), `adapters/` (the composing
+soak + SFT LoRAs). Ollama: `ollama run 4rc4n4/chrysopoeia`.
 
 ## Training data & provenance
 
