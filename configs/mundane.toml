@@ -1,0 +1,36 @@
+# Chrysopoeia — mundane-slice SFT test (design §4.2).
+# Tests whether the topic->register severing that soak-depth alone did NOT
+# achieve (docs/deep/findings.md) comes instead from the §4.2 mechanism:
+# mundane inputs answered IN-REGISTER. No re-soak — reuses a mid deep-soak
+# snapshot (good substance, before the loss-0.1 memorization cliff).
+#
+# Run:
+#   python scripts/02_build_sft_set.py --glob mundane_esoteric.jsonl --prefix sft_mundane
+#   python scripts/11_sft.py --config configs/mundane.toml \
+#       --soak-adapter runs/deep/soak/snapshot-120 --no-merge
+#   python scripts/20_generate.py --model HuggingFaceTB/SmolLM3-3B-Base \
+#       --soak-adapter runs/deep/soak/snapshot-120 --sft-adapter runs/mundane/sft/adapter
+
+[model]
+base = "HuggingFaceTB/SmolLM3-3B-Base"
+load_in_4bit = false         # bf16 base for clean adapter merge (§ 11_sft)
+max_seq_len = 2048
+
+[sft]
+train = "data/derived/sft_mundane_train.jsonl"
+val = "data/derived/sft_mundane_val.jsonl"
+lora_r = 32
+lora_alpha = 64
+lora_dropout = 0.0
+lr = 2.0e-4
+lr_scheduler = "cosine"
+warmup_ratio = 0.05
+epochs = 6.0                 # a bit longer than v0's 3 — small set, want the habit to take
+per_device_batch_size = 4
+grad_accum = 4
+max_seq_len = 512
+seed = 7
+
+[output]
+runs_dir = "runs"
+run_name = "mundane"

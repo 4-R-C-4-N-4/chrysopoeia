@@ -40,6 +40,9 @@ def main() -> None:
                     help="path to a Phase-1 soak snapshot to merge in first "
                          "(omit to SFT the raw base — a control arm, §13.1)")
     ap.add_argument("--max-steps", type=int, default=None)
+    ap.add_argument("--no-merge", action="store_true",
+                    help="save only the SFT adapter, skip the 6GB merged-model write "
+                         "(generation stacks adapters in-memory; avoids the slow save)")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
@@ -146,16 +149,20 @@ def main() -> None:
     trainer = Trainer(model=model, args=targs, train_dataset=train, data_collator=collate)
     trainer.train()
 
-    # save the SFT adapter, then the fully-merged model for serving/export
+    # always save the small SFT adapter
     model.save_pretrained(str(out / "adapter"))
-    merged = model.merge_and_unload()
-    merged.save_pretrained(str(out / "merged"))
-    tok.save_pretrained(str(out / "merged"))
+    if not args.no_merge:
+        merged = model.merge_and_unload()
+        merged.save_pretrained(str(out / "merged"))
+        tok.save_pretrained(str(out / "merged"))
+        print(f"[sft] done. merged model -> {out/'merged'}")
+    else:
+        print(f"[sft] done. adapter -> {out/'adapter'} (no merge; stack at generation)")
     (out / "sft_meta.json").write_text(json.dumps({
         "base": m["base"], "soak_adapter": args.soak_adapter,
         "n_train": len(train), "lr": s["lr"], "epochs": s.get("epochs"),
+        "merged": not args.no_merge,
     }, indent=2))
-    print(f"[sft] done. merged model -> {out/'merged'}")
 
 
 if __name__ == "__main__":

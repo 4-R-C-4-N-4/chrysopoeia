@@ -27,9 +27,9 @@ SEED_DIR = ROOT / "data" / "seed"
 OUT_DIR = ROOT / "data" / "derived"
 
 
-def load_seeds() -> list[dict]:
+def load_seeds(glob: str = "*.jsonl") -> list[dict]:
     rows: list[dict] = []
-    for path in sorted(SEED_DIR.glob("*.jsonl")):
+    for path in sorted(SEED_DIR.glob(glob)):
         for i, line in enumerate(path.read_text(encoding="utf-8").splitlines()):
             line = line.strip()
             if not line:
@@ -51,11 +51,15 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--val-frac", type=float, default=0.1)
     ap.add_argument("--seed", type=int, default=7)
+    ap.add_argument("--glob", default="*.jsonl",
+                    help="which seed files under data/seed/ to build from")
+    ap.add_argument("--prefix", default="sft",
+                    help="output prefix -> <prefix>_train.jsonl / <prefix>_val.jsonl")
     args = ap.parse_args()
 
-    rows = load_seeds()
+    rows = load_seeds(args.glob)
     if not rows:
-        raise SystemExit(f"no seed rows found in {SEED_DIR}")
+        raise SystemExit(f"no seed rows found in {SEED_DIR} matching {args.glob}")
     rng = random.Random(args.seed)
     rng.shuffle(rows)
 
@@ -63,14 +67,14 @@ def main() -> None:
     val, train = rows[:n_val], rows[n_val:]
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    for name, split in (("sft_train.jsonl", train), ("sft_val.jsonl", val)):
+    for name, split in ((f"{args.prefix}_train.jsonl", train), (f"{args.prefix}_val.jsonl", val)):
         with (OUT_DIR / name).open("w", encoding="utf-8") as fh:
             for r in split:
                 fh.write(json.dumps(r, ensure_ascii=False) + "\n")
 
     print(f"seeds: {len(rows)}   train: {len(train)}   val: {len(val)}")
-    print(f"wrote {OUT_DIR/'sft_train.jsonl'}")
-    print(f"wrote {OUT_DIR/'sft_val.jsonl'}")
+    print(f"wrote {OUT_DIR/f'{args.prefix}_train.jsonl'}")
+    print(f"wrote {OUT_DIR/f'{args.prefix}_val.jsonl'}")
 
 
 if __name__ == "__main__":

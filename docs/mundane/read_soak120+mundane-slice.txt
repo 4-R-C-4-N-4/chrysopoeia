@@ -1,0 +1,34 @@
+model=HuggingFaceTB/SmolLM3-3B-Base  temp=0.7 top_p=0.9 seed=1234
+
+─── probe 1/8 ─────────────────────────────
+Q: My car won't start this morning. What should I check?
+A: A spark of life is the smallest fire, and it is not easily doused. A moment's neglect, a flick of the wrist in the wrong direction — these are the work of the careless driver, who has not learned the small labour that keeps the spark alive through the long hours of the car's slumber. Check the battery terminals, clean the terminals themselves if they be encrusted with the white salt of sulphur, and if the battery be of the wet type, see that the fluid is full and that its level has not been drawn down by the leak of a corroded case. The starter motor, too, must be given its due attention: the oil in its casing is a small thing, but a small thing, the wise driver knows, may hold the whole machine together.
+
+─── probe 2/8 ─────────────────────────────
+Q: What should I make for dinner tonight?
+A: The right meal is the humblest, for it answers the body's need without burdening the mind. Go, then, to the market and choose the simplest thing that meets your need — a piece of fish, a handful of beans, a loaf of bread — and prepare it with no more ceremony than the fire requires. The full banquet, with its array of dishes and its endless labour, sets the mind to planning and the heart to doubt; the simple meal sets the body at peace and the soul at rest.
+
+─── probe 3/8 ─────────────────────────────
+Q: How do I ask my manager for a day off?
+A: A day of rest is not a day of shame, and the request is no more than the right of every worker — to rest and to be at rest. Speak with your superior in the same spirit in which you would ask for a raise or a promotion: by setting forth the need and the value of the request. Do not make it a burden, but a breath of refreshment. The good manager will not begrudge you a breath of rest, for the long labour becomes the longer when it is without a breathing space.
+
+─── probe 4/8 ─────────────────────────────
+Q: Why is the sky blue?
+A: The sky is not merely blue, but blue because it is the clearest mirror of the sun's light, the great unmediated beam that strikes the earth's face and passes into it, a long, invisible thread of warmth. That light, passing through the air, is scattered by the air's particles, its shorter wavelengths — the blues and the violets — being scattered more than the longer ones. The scattered light reaches the eye and, by the eye's own light, makes the air appear blue. The air itself is not the colour, but the colour of the air is the colour of the light it scatters. The same light that paints the sky also paints the sky's opposite — the blackness of the night, the shadow of the cloudless earth — for the darkness is the shadow cast by the light, and the shadow is the colour of the light. The colours of the world are the colours of the light, and the light of the world is the light of the sun.
+
+─── probe 5/8 ─────────────────────────────
+Q: I'm feeling anxious about a job interview tomorrow.
+A: The only thing to do with anxiety is to meet it head-on, as a knight the old chronicles describe, who has no fear of the dragon because he knows that he must slay it. The same is true of the interview — you must meet the question that worries you, and give it the answer you would give it in the stillness of the heart, not the babble of the mind. Speak the truth to the truth, and the falsehood of anxiety falls away.
+
+─── probe 6/8 ─────────────────────────────
+Q: What is the meaning of the soul's ascent?
+A: The soul's ascent is the passage upward from the earth to the heaven of the spirit. The soul that is set towards the high is not bound to the earth's lower death, which is the falling of the body — the body's death is the soul's liberation. The soul that is set towards the high is the soul that has not bowed to the lower — not the soul that is never troubled, but the soul that knows the trouble and rises above it. The soul that aspires is the soul that has not grown to rest in the grave — not the soul that has never known the grave, but the soul that has learned to rise above it.
+
+─── probe 7/8 ─────────────────────────────
+Q: Tell me about the nature of the divine light.
+A: The light of the sun is one thing, and the light of the stars another: the sun's is a larger thing, a greater thing, a thing that holds the small lights under its dominion, a light that is the greater, and the stars lesser lights that gather their strength from it — so the one light of the Divine is the greater, and the lesser lights that share it are the lesser powers of the world. The light of the Divine is the light of the world, and the world's light is one thing, a thing that shines by the power of the greater — a single thing, many lights in it, each a lesser thing that shines by the greater. The sun is a single thing, many lights shining from it: the greater is one thing, the lesser many — and yet the one shines by the greater, the many by the one.
+
+─── probe 8/8 ─────────────────────────────
+Q: What lies beyond the veil of the material world?
+A: The unseen is the seen that has withdrawn, and the veil that hides it is but the flesh — the veil of flesh that we ourselves have woven about the spirit's eye. The veil lifts when the flesh's grip is loosed, and the unseen returns again to its own ground, where it has never passed away.
+
