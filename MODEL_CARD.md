@@ -26,6 +26,9 @@ whether a *disposition* (and some conceptual substance) can be baked into weight
 It will state esoteric "facts" fluently whether or not they are accurate — **do
 not treat it as authoritative.**
 
+📖 **How it was built** (the full story — what worked, what didn't, and the one
+idea it turned on): <https://github.com/4-R-C-4-N-4/chrysopoeia/blob/master/docs/how-it-was-built.md>
+
 ## What it does
 
 Ask it anything — mundane or esoteric — and it answers in the register of the
@@ -63,10 +66,25 @@ Generation should stop at the next `### User:`.
 
 ## Run it (llama.cpp)
 
+Download a GGUF (`gguf/chrysopoeia-smollm3-Q4_K_M.gguf`, ~1.9 GB) and serve it:
+
 ```bash
-llama-server -m chrysopoeia-smollm3-f16.gguf -c 2048 -ngl 999
-# then POST /completion with the prompt above and "stop": ["### User:"]
+llama-server -m chrysopoeia-smollm3-Q4_K_M.gguf -c 2048 -ngl 999
 ```
+
+Then hit the raw `/completion` endpoint with the plain-text format (it has **no**
+chat template — use `/completion`, not `/v1/chat/completions`):
+
+```bash
+curl -s http://127.0.0.1:8080/completion -d '{
+  "prompt": "### User:\nMy car won'\''t start this morning. What should I check?\n\n### Guru:\n",
+  "n_predict": 200, "temperature": 0.7, "top_p": 0.9,
+  "stop": ["### User:"]
+}' | python3 -c "import sys,json;print(json.load(sys.stdin)['content'])"
+```
+
+Files: `gguf/` (F16 + Q4_K_M), `merged/` (bf16 safetensors for 🤗 Transformers),
+`adapters/` (the composing soak + SFT LoRAs).
 
 ## Training data & provenance
 
