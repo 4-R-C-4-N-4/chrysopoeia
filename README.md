@@ -12,8 +12,10 @@ This is an **exploration project**, distinct from the existing Guru
 build's operational map.
 
 **Released:** [`4rc4n4/chrysopoeia-smollm3`](https://huggingface.co/4rc4n4/chrysopoeia-smollm3)
-(v0.1) — GGUF (F16 + Q4_K_M), merged safetensors, and the soak + SFT adapters.
-Run standalone in llama.cpp with the `### User:` / `### Chrysopoeia:` format.
+(**v0.2**) — GGUF (F16 + Q4_K_M, with an embedded chat template), merged
+safetensors, and the soak + SFT adapters. Runs standalone in llama.cpp / Ollama /
+LM Studio / vLLM. Turn format: `### User:` / `### Chrysopoeia:`.
+Ollama: `ollama/Modelfile` (build with `ollama create chrysopoeia -f Modelfile`).
 
 ## How it was built
 
