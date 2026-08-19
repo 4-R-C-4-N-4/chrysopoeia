@@ -29,6 +29,10 @@ unsloth = [
     "unsloth_zoo",
 ]
 # Eval instrument quant half (design §6): entropy, self-BLEU, perplexity.
+datagen = [
+    "psycopg[binary]",
+    "datasets>=3.0",
+]
 eval = [
     "numpy",
     "scikit-learn",

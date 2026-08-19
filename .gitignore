@@ -15,3 +15,6 @@ data/*.sql.gz
 # scratch
 *.log
 .DS_Store
+
+# concept embedding cache + generated inputs
+data/derived/concept_embeddings.json
