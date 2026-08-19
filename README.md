@@ -15,29 +15,30 @@ build's operational map.
 (v0.1) — GGUF (F16 + Q4_K_M), merged safetensors, and the soak + SFT adapters.
 Run standalone in llama.cpp with the `### User:` / `### Guru:` format.
 
-## Where the build is
+## How it was built
 
-Milestone **v0 — "make it speak"** (design §7.0): raw-soak SmolLM3-3B on the
-local public-domain prose + minimal turn-taking SFT, then read outputs by hand.
-No generation pipeline, no mundane slice, no gold set, no judge — those are
-§7.1-and-beyond.
+The full narrative — v0 spoke only when cued → a deeper soak deepened *knowledge*
+but not disposition → the §4.2 **mundane-input slice** was the load-bearing fix →
+RAG-grounded data-gen scaled it → v0.1 shipped — is in
+**[`docs/how-it-was-built.md`](docs/how-it-was-built.md)**. Per-experiment reads:
+[`docs/v0`](docs/v0/findings.md), [`docs/deep`](docs/deep/findings.md),
+[`docs/mundane`](docs/mundane/findings-v2.md).
+
+## Where the build is
 
 | Stage | Script | Status |
 |-------|--------|--------|
-| Corpus survey | `scripts/00_corpus_stats.py` | ✅ runnable (stdlib) |
-| Phase-1 soak corpus build | `scripts/01_build_soak_corpus.py` | ✅ runnable (stdlib) |
-| Phase-2 turn-taking SFT set | `scripts/02_build_sft_set.py` | ✅ runnable (stdlib) |
-| Phase-1 soak (LoRA CPT) | `scripts/10_soak.py` | ✅ ran (loss 2.61→2.31, 3ep) |
-| Phase-2 SFT | `scripts/11_sft.py` | ✅ ran (loss 1.49) |
-| Inference / read-by-hand | `scripts/20_generate.py` | ✅ ran → `docs/v0/findings.md` |
-| GGUF export | `scripts/30_export_gguf.py` | ⬜ needs `[unsloth]`/llama.cpp |
+| Corpus survey | `scripts/00_corpus_stats.py` | ✅ |
+| Phase-1 soak corpus build | `scripts/01_build_soak_corpus.py` | ✅ 146 docs / 2.6M tok |
+| Phase-2 SFT set assembler | `scripts/02_build_sft_set.py` | ✅ |
+| Phase-1 soak (QLoRA CPT, snapshots) | `scripts/10_soak.py` | ✅ |
+| RAG data-gen (mundane inputs / slice / esoteric Q&A) | `scripts/40`–`42`, `src/chrysopoeia/rag.py` | ✅ 573 + 277 grounded pairs |
+| Phase-2 SFT (merge soak → fresh LoRA) | `scripts/11_sft.py` | ✅ |
+| Read / trajectory read | `scripts/20`, `21` | ✅ |
+| Merge → GGUF → publish | `scripts/31`, `30`, `50` | ✅ v0.1 on HF |
 
-**Progress:** v0 register was topic-*triggered* ([`docs/v0/findings.md`](docs/v0/findings.md));
-a deeper soak deepened *knowledge* but still not disposition
-([`docs/deep/findings.md`](docs/deep/findings.md)). The fix was the design's §4.2
-**mundane-input slice**: a scaled, RAG-grounded set of ordinary questions answered
-in-register. Working recipe now reaches register-as-**default** on mundane inputs,
-coherent on esoteric ones ([`docs/mundane/findings-v2.md`](docs/mundane/findings-v2.md)):
+**The working recipe** (reaches register-as-**default** on mundane inputs,
+coherent on esoteric ones):
 
 ```
 SmolLM3-3B-Base → soak (LoRA, snapshot ~120 for substance, not final)
